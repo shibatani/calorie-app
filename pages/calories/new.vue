@@ -46,6 +46,7 @@ import { format } from 'date-fns'
 @Component
 export default class CaloriesNewPage extends Vue {
   form = {
+    id: "",
     date: "",
     kind: "breakfast",
     title: "",
@@ -83,7 +84,6 @@ export default class CaloriesNewPage extends Vue {
       await caloriesStore.createCalory(this.form);
       this.formRef.resetFields()
       this.$message.success({ message: "登録しました", showClose: true })
-
     } catch {
       this.$message.error({ message: "エラーが発生しました", showClose: true })
     }

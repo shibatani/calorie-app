@@ -1,46 +1,44 @@
 <template>
   <div class="wrapper">
-    <div v-if="todayCalories">
-      <div class="flex">
-        <h2>本日の摂取カロリー</h2>
-        <h2></h2>
-      </div>
-      <el-table
-        :data="todayCalories"
-      >
-        <el-table-column
-          label="日付"
-          prop="date"
-        >
-        </el-table-column>
-        <el-table-column
-          label="名前"
-          prop="title"
-        >
-        </el-table-column>
-        <el-table-column
-          label="種類"
-          prop="kind"
-        >
-        </el-table-column>
-        <el-table-column
-          label="カロリー(kcal)"
-          prop="calory"
-        >
-        </el-table-column>
-        <el-table-column>
-          <template slot-scope="scope">
-            <el-button
-              size="mini"
-              @click="handleEdit(scope.$index, scope.row)">Edit</el-button>
-            <el-button
-              size="mini"
-              type="danger"
-              @click="handleDelete(scope.$index, scope.row)">Delete</el-button>
-          </template>
-        </el-table-column>
-      </el-table>
+    <div class="flex">
+      <h2>本日の摂取カロリー</h2>
+      <h2></h2>
     </div>
+    <el-table
+      :data="todayCalories"
+    >
+      <el-table-column
+        label="日付"
+        prop="date"
+      >
+      </el-table-column>
+      <el-table-column
+        label="名前"
+        prop="title"
+      >
+      </el-table-column>
+      <el-table-column
+        label="種類"
+        prop="kind"
+      >
+      </el-table-column>
+      <el-table-column
+        label="カロリー(kcal)"
+        prop="calory"
+      >
+      </el-table-column>
+      <el-table-column>
+        <template slot-scope="scope">
+          <el-button
+            size="mini"
+            @click="onEdit(scope.$index, scope.row)">編集</el-button>
+          <el-button
+            size="mini"
+            type="danger"
+            @click="onDelete(scope.row)">削除</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
     <h2>本日以外の摂取カロリー</h2>
       <el-table
         :data="otherCalories"
@@ -69,11 +67,11 @@
           <template slot-scope="scope">
             <el-button
               size="mini"
-              @click="onEdit(scope.$index, scope.row)">Edit</el-button>
+              @click="onEdit(scope.$index, scope.row)">編集</el-button>
             <el-button
               size="mini"
               type="danger"
-              @click="onDelete(scope.$index, scope.row)">Delete</el-button>
+              @click="onDelete(scope.row)">削除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -82,9 +80,10 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "nuxt-property-decorator";
+import { Component, Vue, Watch } from "nuxt-property-decorator";
 import { caloriesStore } from "~/store";
 import { format } from "date-fns";
+import { CaloryParams } from "types/calories";
 
 @Component
 export default class CaloryList extends Vue {
@@ -104,15 +103,21 @@ export default class CaloryList extends Vue {
     );
   }
 
-  onDelete() {
-
+  async onDelete(calory: CaloryParams) {
+    try {
+      await caloriesStore.deleteCalory(calory.id);
+      await caloriesStore.fatchCalories();
+      this.$message.success({ message: "削除しました", showClose: true });
+    } catch {
+      this.$message.error({ message: "エラーが発生しました", showClose: true });
+    }
   }
 
-  created() {
+  async created() {
     try {
-      caloriesStore.fatchCalories();
+      await caloriesStore.fatchCalories();
     } catch {
-      console.log("aaa");
+      this.$message.error({ message: "エラーが発生しました", showClose: true });
     }
   }
 }

@@ -1,5 +1,6 @@
 import { VuexModule, Module, Mutation, Action } from 'vuex-module-decorators'
-import CaloriesClient, { CaloryParams }  from '~/api/calories'
+import CaloriesClient from '~/api/calories'
+import { CaloryParams } from "types/calories"
 
 @Module({ stateFactory: true, namespaced: true, name: 'calories' })
 export default class CaloriesModule extends VuexModule {
@@ -21,6 +22,13 @@ export default class CaloriesModule extends VuexModule {
   async createCalory (params: CaloryParams) {
     const client = new CaloriesClient()
     const calory = await client.createCalory(params)
+    return calory
+  }
+
+  @Action({ rawError: true })
+  async deleteCalory (id: string) {
+    const client = new CaloriesClient()
+    const calory = await client.deleteCalory(id)
     return calory
   }
 }
