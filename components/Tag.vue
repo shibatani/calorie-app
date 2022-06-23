@@ -10,19 +10,20 @@ export default class AppBadge extends Vue {
   @Prop({
     required: false,
     default: "",
-    type: String
+    type: String,
   })
   kind!: string;
 
-  get tag () {
-    if (this.kind === "breakfast") {
-      return {type: "", label: "朝食"}
-    } else if (this.kind === "lunch") {
-      return {type: "success", label: "昼食"}
-    } else if (this.kind === "dinner") {
-      return {type: "info", label: "夕食"}
-    } else {
-      return {type: "warning", label: "その他"}
+  get tag() {
+    switch (this.kind) {
+      case "breakfast":
+        return { type: "", label: "朝食" };
+      case "lunch":
+        return { type: "success", label: "昼食" };
+      case "dinner":
+        return { type: "info", label: "夕食" };
+      case "other":
+        return { type: "warning", label: "その他" };
     }
   }
 }
