@@ -17,10 +17,10 @@
         prop="title"
       >
       </el-table-column>
-      <el-table-column
-        label="種類"
-        prop="kind"
-      >
+      <el-table-column label="種別">
+        <template slot-scope="scope">
+          <tag :kind="scope.row.kind"></tag>
+        </template>
       </el-table-column>
       <el-table-column
         label="カロリー(kcal)"
@@ -53,10 +53,10 @@
           prop="title"
         >
         </el-table-column>
-        <el-table-column
-          label="種類"
-          prop="kind"
-        >
+        <el-table-column label="種別">
+          <template slot-scope="scope">
+            <tag :kind="scope.row.kind"></tag>
+          </template>
         </el-table-column>
         <el-table-column
           label="カロリー(kcal)"
@@ -84,8 +84,13 @@ import { Component, Vue } from "nuxt-property-decorator";
 import { caloriesStore } from "~/store";
 import { format } from "date-fns";
 import { CaloryParams } from "types/calories";
+import Tag from "~/components/Tag.vue";
 
-@Component
+@Component({
+  components: {
+    Tag,
+  },
+})
 export default class CaloryList extends Vue {
   get calories() {
     return caloriesStore.calories;
@@ -104,7 +109,7 @@ export default class CaloryList extends Vue {
   }
 
   async onEdit(calory: CaloryParams) {
-    this.$router.push(`/calories/${calory.id}`)
+    this.$router.push(`/calories/${calory.id}`);
   }
 
   async onDelete(calory: CaloryParams) {
