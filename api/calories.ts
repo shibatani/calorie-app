@@ -1,5 +1,5 @@
-import { getDatabase, ref, push, set, get, remove } from "firebase/database";
-import { CaloryParams } from "types/calories"
+import { getDatabase, ref, push, set, get, remove, update, child } from "firebase/database";
+import { CaloryParams, updateParams } from "types/calories"
 
 export default class CaloriesClient {
   async fatchCalories() {
@@ -9,7 +9,13 @@ export default class CaloriesClient {
     Object.keys(response.val()).forEach((key) => {
       result.push(response.val()[key])
     })
-    return result
+    return result as any
+  }
+
+  async fatchCalory(id: string) {
+    const dbRef = ref(getDatabase());
+    const response = await get(child(dbRef, `calories/${id}`)) as any
+    return response.val() as any
   }
 
   async createCalory(params: CaloryParams) {
@@ -17,6 +23,14 @@ export default class CaloriesClient {
     const key = push(ref(db, 'calories')).key;
     params.id = key!
     const response = set((ref(db, `calories/${key}`)), { ...params }) as any
+    return response as any
+  }
+
+  async updateCalory(params: CaloryParams) {
+    const db = getDatabase();
+    const updates: updateParams = {};
+    updates[`/calories/${params.id}`] = params;
+    const response = update(ref(db), updates) as any
     return response as any
   }
 

@@ -31,7 +31,7 @@
         <template slot-scope="scope">
           <el-button
             size="mini"
-            @click="onEdit(scope.$index, scope.row)">編集</el-button>
+            @click="onEdit(scope.row)">編集</el-button>
           <el-button
             size="mini"
             type="danger"
@@ -67,7 +67,7 @@
           <template slot-scope="scope">
             <el-button
               size="mini"
-              @click="onEdit(scope.$index, scope.row)">編集</el-button>
+              @click="onEdit(scope.row)">編集</el-button>
             <el-button
               size="mini"
               type="danger"
@@ -80,7 +80,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch } from "nuxt-property-decorator";
+import { Component, Vue } from "nuxt-property-decorator";
 import { caloriesStore } from "~/store";
 import { format } from "date-fns";
 import { CaloryParams } from "types/calories";
@@ -101,6 +101,10 @@ export default class CaloryList extends Vue {
     return this.calories.filter(
       (calory) => calory.date !== format(new Date(), "yyyy-MM-dd")
     );
+  }
+
+  async onEdit(calory: CaloryParams) {
+    this.$router.push(`/calories/${calory.id}`)
   }
 
   async onDelete(calory: CaloryParams) {

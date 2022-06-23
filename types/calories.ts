@@ -5,3 +5,7 @@ export type CaloryParams = {
   calory: number
   kind: string
 }
+
+export type updateParams = {
+  [key: string]: CaloryParams
+}

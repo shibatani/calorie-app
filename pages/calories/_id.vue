@@ -1,9 +1,11 @@
 <template>
-  <calory-form ref="caloryForm" @save="onSave"> </calory-form>
+  <calory-form ref="caloryForm" @save="onSave" :form-params="formParams">
+  </calory-form>
 </template>
 
 <script lang="ts">
 import { Vue, Component } from "nuxt-property-decorator";
+import { Context } from "@nuxt/types";
 import { caloriesStore } from "~/store";
 import CaloryForm from "~/components/CaloryForm.vue";
 import { CaloryParams } from "types/calories";
@@ -18,12 +20,24 @@ export default class CaloriesNewPage extends Vue {
     return this.$refs.caloryForm as CaloryForm;
   }
 
+  get formParams() {
+    return caloriesStore.calory;
+  }
+
+  async fetch({ params }: Context) {
+    try {
+      caloriesStore.setCalory(null);
+      await caloriesStore.fatchCalory(params.id);
+    } catch (e) {
+      this.$message.error({ message: "エラーが発生しました", showClose: true });
+    }
+  }
+
   async onSave(form: CaloryParams) {
     try {
-      await caloriesStore.createCalory(form);
-      this.caloryFormRef.formRef.resetFields();
+      await caloriesStore.updateCalory(form);
       this.$router.push(`/calories`);
-      this.$message.success({ message: "登録しました", showClose: true });
+      this.$message.success({ message: "更新しました", showClose: true });
     } catch {
       this.$message.error({ message: "エラーが発生しました", showClose: true });
     }

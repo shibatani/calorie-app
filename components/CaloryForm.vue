@@ -38,19 +38,34 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component } from "nuxt-property-decorator";
+import { Vue, Component, Prop, Watch } from "nuxt-property-decorator";
 import { ElForm } from 'element-ui/types/form'
 import { format } from 'date-fns'
+import { CaloryParams } from "types/calories";
 
 @Component
 export default class CaloryForm extends Vue {
-  form = {
-    id: "",
-    date: format(new Date(), 'yyyy-MM-dd').toString(),
-    kind: "breakfast",
-    title: "",
-    calory: 0,
-  };
+  @Prop({ type: Object, default: null }) formParams!: CaloryParams | null
+
+  form = this.createFormModel()
+
+  createFormModel (): CaloryParams {
+    return this.mergeDefaultFormParams({
+      id: "",
+      date: format(new Date(), 'yyyy-MM-dd').toString(),
+      kind: "breakfast",
+      title: "",
+      calory: 0,
+    })
+  }
+
+  mergeDefaultFormParams (form: CaloryParams) {
+    if (this.formParams) {
+      return { ...form, ...this.formParams }
+    } else {
+      return form
+    }
+  }
 
   get kinds() {
     return [
@@ -84,6 +99,11 @@ export default class CaloryForm extends Vue {
     } catch {
       this.$message.error({ message: "エラー発生しました", showClose: true });
     }
+  }
+
+  @Watch('formParams', { deep: true, immediate: true })
+  onFormParamsChange () {
+    this.form = this.createFormModel()
   }
 }
 </script>
