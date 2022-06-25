@@ -8,7 +8,7 @@
         @select="moveToPath"
       >
         <el-menu-item index="/calories">一覧画面</el-menu-item>
-        <el-menu-item index="/calories/new">新規登録画面</el-menu-item>
+        <el-menu-item index="/calories/new">登録画面</el-menu-item>
       </el-menu>
     </div>
     <nuxt></nuxt>

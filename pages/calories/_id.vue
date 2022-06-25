@@ -1,6 +1,11 @@
 <template>
   <div class="wrapper">
-    <calory-form ref="caloryForm" @save="onSave" :form-params="formParams">
+    <calory-form
+      ref="caloryForm"
+      title="編集画面"
+      @save="onSave"
+      :form-params="formParams"
+    >
     </calory-form>
   </div>
 </template>
@@ -17,7 +22,7 @@ import { CaloryParams } from "types/calories";
     CaloryForm,
   },
 })
-export default class CaloriesNewPage extends Vue {
+export default class CaloriesDetailPage extends Vue {
   get caloryFormRef() {
     return this.$refs.caloryForm as CaloryForm;
   }

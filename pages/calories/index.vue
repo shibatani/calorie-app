@@ -1,81 +1,7 @@
 <template>
   <div class="wrapper">
-    <div class="flex">
-      <h2>本日の摂取カロリー</h2>
-      <h2></h2>
-    </div>
-    <el-table
-      :data="todayCalories"
-    >
-      <el-table-column
-        label="日付"
-        prop="date"
-      >
-      </el-table-column>
-      <el-table-column
-        label="名前"
-        prop="title"
-      >
-      </el-table-column>
-      <el-table-column label="種別">
-        <template slot-scope="scope">
-          <tag :kind="scope.row.kind"></tag>
-        </template>
-      </el-table-column>
-      <el-table-column
-        label="カロリー(kcal)"
-        prop="calory"
-      >
-      </el-table-column>
-      <el-table-column>
-        <template slot-scope="scope">
-          <el-button
-            size="mini"
-            @click="onEdit(scope.row)">編集</el-button>
-          <el-button
-            size="mini"
-            type="danger"
-            @click="onDelete(scope.row)">削除</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
-    <h2>本日以外の摂取カロリー</h2>
-      <el-table
-        :data="otherCalories"
-      >
-        <el-table-column
-          label="日付"
-          prop="date"
-        >
-        </el-table-column>
-        <el-table-column
-          label="名前"
-          prop="title"
-        >
-        </el-table-column>
-        <el-table-column label="種別">
-          <template slot-scope="scope">
-            <tag :kind="scope.row.kind"></tag>
-          </template>
-        </el-table-column>
-        <el-table-column
-          label="カロリー(kcal)"
-          prop="calory"
-        >
-        </el-table-column>
-        <el-table-column>
-          <template slot-scope="scope">
-            <el-button
-              size="mini"
-              @click="onEdit(scope.row)">編集</el-button>
-            <el-button
-              size="mini"
-              type="danger"
-              @click="onDelete(scope.row)">削除</el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-    </div>
+    <calory-list ref="caloryList" @delete="onDelete" :list-params="listParams">
+    </calory-list>
   </div>
 </template>
 
@@ -84,19 +10,19 @@ import { Component, Vue } from "nuxt-property-decorator";
 import { caloriesStore } from "~/store";
 import { format } from "date-fns";
 import { CaloryParams } from "types/calories";
-import Tag from "~/components/Tag.vue";
+import CaloryList from "~/components/CaloryList.vue";
 
 @Component({
   components: {
-    Tag,
+    CaloryList,
   },
 })
-export default class CaloryList extends Vue {
+export default class CaloryListPage extends Vue {
   get calories() {
     return caloriesStore.calories;
   }
 
-  get todayCalories() {
+  get listParams() {
     return this.calories.filter(
       (calory) => calory.date === format(new Date(), "yyyy-MM-dd")
     );
@@ -106,10 +32,6 @@ export default class CaloryList extends Vue {
     return this.calories.filter(
       (calory) => calory.date !== format(new Date(), "yyyy-MM-dd")
     );
-  }
-
-  async onEdit(calory: CaloryParams) {
-    this.$router.push(`/calories/${calory.id}`);
   }
 
   async onDelete(calory: CaloryParams) {

@@ -7,7 +7,7 @@
     label-position="left"
   >
     <div class="wrapper">
-      <h2>新規登録</h2>
+      <h2>{{ title }}</h2>
       <el-form-item prop="date" label="日付">
         <el-date-picker v-model="form.date" type="date"> </el-date-picker>
       </el-form-item>
@@ -46,6 +46,7 @@ import { CaloryParams } from "types/calories";
 @Component
 export default class CaloryForm extends Vue {
   @Prop({ type: Object, default: null }) formParams!: CaloryParams | null
+  @Prop({ type: String, default: null }) title!: string | null
 
   form = this.createFormModel()
 

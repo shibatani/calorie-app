@@ -1,6 +1,7 @@
 <template>
   <div class="wrapper">
-    <calory-form ref="caloryForm" @save="onSave"> </calory-form>
+    <calory-form ref="caloryForm" title="登録画面" @save="onSave">
+    </calory-form>
   </div>
 </template>
 
