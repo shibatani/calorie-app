@@ -136,7 +136,7 @@ export default class CaloryList extends Vue {
 .wrapper {
   margin: 0 auto;
   width: 70%;
-  padding-top: 50px;
+  padding-top: 20px;
 }
 
 .flex {

@@ -24,14 +24,14 @@ export default class CaloriesModule extends VuexModule {
   @Action({ rawError: true })
   async fatchCalories() {
     const client = new CaloriesClient()
-    const calories = await client.fatchCalories()
+    const calories = await client.fetchCalories()
     this.setCalories(calories)
   }
 
   @Action({ rawError: true })
   async fatchCalory(id: string) {
     const client = new CaloriesClient()
-    const calory = await client.fatchCalory(id)
+    const calory = await client.fetchCalory(id)
     this.setCalory(calory)
   }
 

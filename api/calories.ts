@@ -2,7 +2,7 @@ import { getDatabase, ref, push, set, get, remove, update, child } from "firebas
 import { CaloryParams, updateParams } from "types/calories"
 
 export default class CaloriesClient {
-  async fatchCalories() {
+  async fetchCalories() {
     const db = getDatabase();
     const response = await get(ref(db, `calories`)) as any
     const result: CaloryParams[] = []
@@ -12,7 +12,7 @@ export default class CaloriesClient {
     return result as any
   }
 
-  async fatchCalory(id: string) {
+  async fetchCalory(id: string) {
     const dbRef = ref(getDatabase());
     const response = await get(child(dbRef, `calories/${id}`)) as any
     return response.val() as any

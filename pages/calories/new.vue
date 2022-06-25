@@ -1,5 +1,7 @@
 <template>
-  <calory-form ref="caloryForm" @save="onSave"> </calory-form>
+  <div class="wrapper">
+    <calory-form ref="caloryForm" @save="onSave"> </calory-form>
+  </div>
 </template>
 
 <script lang="ts">
@@ -34,6 +36,6 @@ export default class CaloriesNewPage extends Vue {
 <style scoped>
 .wrapper {
   margin: 0 auto;
-  width: 50%;
+  padding-top: 20px;
 }
 </style>
