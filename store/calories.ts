@@ -2,6 +2,8 @@ import { VuexModule, Module, Mutation, Action } from 'vuex-module-decorators'
 import CaloriesClient from '~/api/calories'
 import { CaloryParams } from "types/calories"
 
+import { format } from 'date-fns'
+
 @Module({ stateFactory: true, namespaced: true, name: 'calories' })
 export default class CaloriesModule extends VuexModule {
   calories: CaloryParams[] = []
@@ -22,14 +24,14 @@ export default class CaloriesModule extends VuexModule {
   }
 
   @Action({ rawError: true })
-  async fatchCalories() {
+  async fetchCalories(date: string = format(new Date(), 'yyyy-MM-dd')) {
     const client = new CaloriesClient()
-    const calories = await client.fetchCalories()
+    const calories = await client.fetchCalories(date)
     this.setCalories(calories)
   }
 
   @Action({ rawError: true })
-  async fatchCalory(id: string) {
+  async fetchCalory(id: string) {
     const client = new CaloriesClient()
     const calory = await client.fetchCalory(id)
     this.setCalory(calory)

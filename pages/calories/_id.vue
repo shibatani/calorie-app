@@ -34,7 +34,7 @@ export default class CaloriesDetailPage extends Vue {
   async fetch({ params }: Context) {
     try {
       caloriesStore.setCalory(null);
-      await caloriesStore.fatchCalory(params.id);
+      await caloriesStore.fetchCalory(params.id);
     } catch (e) {
       this.$message.error({ message: "エラーが発生しました", showClose: true });
     }

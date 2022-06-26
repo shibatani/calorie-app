@@ -1,8 +1,16 @@
 <template>
   <div>
-    <div class="flex">
-      <h2>本日の摂取カロリー</h2>
-      <h2></h2>
+    <div class="calory-list-head">
+      <h2>摂取カロリー</h2>
+      <el-select v-model="filterDate" placeholder="Select">
+        <el-option
+          v-for="date in dates"
+          :key="date.value"
+          :label="date.key"
+          :value="date.value"
+        >
+        </el-option>
+      </el-select>
     </div>
     <el-table
       :data="listParams"
@@ -43,9 +51,12 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from "nuxt-property-decorator";
+import { Component, Vue, Prop, Watch } from "nuxt-property-decorator";
 import { CaloryParams } from "types/calories";
+import { caloriesStore } from "~/store";
 import Tag from "~/components/Tag.vue";
+
+import { addDays, format } from 'date-fns'
 
 @Component({
   components: {
@@ -53,14 +64,44 @@ import Tag from "~/components/Tag.vue";
   },
 })
 export default class CaloryList extends Vue {
-  @Prop({ type: Object, default: null }) listParams!: CaloryParams | null
+  @Prop({ type: Array, default: null }) listParams!: CaloryParams[] | null
 
-  async onEdit(calory: CaloryParams) {
+  filterDate: string = format(new Date(), 'yyyy-MM-dd')
+
+  get dates() {
+    return [...Array(5)].map((_, i) => ({
+      value: format(addDays(new Date(), -i), 'yyyy-MM-dd'),
+      key: format(addDays(new Date(), -i), 'yyyy-MM-dd')
+    }));
+  }
+
+  onEdit(calory: CaloryParams) {
     this.$router.push(`/calories/${calory.id}`);
   }
 
   onDelete(calory: CaloryParams) {
-    this.$emit('delete', { ...calory })
+    this.$emit('delete', { ...calory }, this.filterDate)
+  }
+
+  @Watch('filterDate')
+  onChange () {
+    try {
+      caloriesStore.fetchCalories(this.filterDate);
+    } catch {
+      this.$message.error({ message: "エラーが発生しました", showClose: true });
+    }
   }
 }
 </script>
+
+<style scoped>
+.calory-list-head {
+  display: flex;
+  justify-content: space-between;
+}
+
+.el-select {
+  display: flex;
+  align-items: center;
+}
+</style>

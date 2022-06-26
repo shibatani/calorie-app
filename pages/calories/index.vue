@@ -8,7 +8,6 @@
 <script lang="ts">
 import { Component, Vue } from "nuxt-property-decorator";
 import { caloriesStore } from "~/store";
-import { format } from "date-fns";
 import { CaloryParams } from "types/calories";
 import CaloryList from "~/components/CaloryList.vue";
 
@@ -17,27 +16,19 @@ import CaloryList from "~/components/CaloryList.vue";
     CaloryList,
   },
 })
-export default class CaloryListPage extends Vue {
+export default class CaloriesListPage extends Vue {
   get calories() {
     return caloriesStore.calories;
   }
 
   get listParams() {
-    return this.calories.filter(
-      (calory) => calory.date === format(new Date(), "yyyy-MM-dd")
-    );
+    return this.calories;
   }
 
-  get otherCalories() {
-    return this.calories.filter(
-      (calory) => calory.date !== format(new Date(), "yyyy-MM-dd")
-    );
-  }
-
-  async onDelete(calory: CaloryParams) {
+  async onDelete(calory: CaloryParams, date: string) {
     try {
       await caloriesStore.deleteCalory(calory.id);
-      await caloriesStore.fatchCalories();
+      await caloriesStore.fetchCalories(date);
       this.$message.success({ message: "削除しました", showClose: true });
     } catch {
       this.$message.error({ message: "エラーが発生しました", showClose: true });
@@ -46,7 +37,7 @@ export default class CaloryListPage extends Vue {
 
   async created() {
     try {
-      await caloriesStore.fatchCalories();
+      await caloriesStore.fetchCalories();
     } catch {
       this.$message.error({ message: "エラーが発生しました", showClose: true });
     }
