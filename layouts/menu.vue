@@ -16,15 +16,21 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'nuxt-property-decorator'
+import { Component, Vue } from "nuxt-property-decorator";
 
 @Component
 export default class Menu extends Vue {
-  get index (): string | undefined {
-    return this.$route.path
+  get index(): string | undefined {
+    const path = this.$route.path;
+
+    if (/\/calories\/[ -~]+/.test(path)) {
+      return "/calories/new";
+    } else {
+      return path;
+    }
   }
 
-  moveToPath (path: string) {
+  moveToPath(path: string) {
     this.$router.push(path);
   }
 }
