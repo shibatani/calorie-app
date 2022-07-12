@@ -1,4 +1,4 @@
-# calorie-app
+# calorie-app-vue
 
 ## Build Setup
 
