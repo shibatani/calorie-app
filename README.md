@@ -29,6 +29,10 @@
 - Element UI 2.15.2
 - Firebase 9.8.2
 
+## 関連記事
+- [Nuxt.js × Firebase(Realtime Database) のDBやりとり](https://zenn.dev/shibari_yo/articles/512d2609d32d98)
+  - このアプリで使用しているRealtime Databaseに焦点を当てて記事を書いた。
+
 ## コマンド関連
 
 ```bash
