@@ -1,69 +1,56 @@
-# calorie-app-vue
+# カロリー記録アプリ(Nuxt.js Ver)
 
-## Build Setup
+## このアプリでできること
+日々、食べた物の情報を記録できる。食べ物の情報としては、食べ物の名前・食べた日付・食べた時間帯(例: 昼食など)・食べ物のカロリーからなる。また、それらの情報を編集・削除できる。
+
+## アプリを作成した理由
+リモートワーク主体の働き方の影響を受けて、最近体重が気になり始めた。。  
+なので、自身のダイエットに役立てようと、日々食べた物のカロリーを記録できるようなアプリを作った。
+
+## アプリを作成した理由(技術観点)
+業務でNuxt.jsを使用してフロントエンド開発を行なっているが、新機能開発や既存機能改修などがメインで一からアプリを構築して開発を行なった経験がなかった。  
+なので、業務で扱っている技術メインでアプリ作り、あわよくば技術の深掘りができれば良いなと思ったから。  
+また、Firebaseを触ってみたいと思っていたから。
+
+## 工夫した点
+- 一覧画面に表示されている食べ物を食べた時間帯については、ラベルで表現するようにして、ユーザーが直感的に分かりやすくなるように工夫した。
+- 一覧画面に表示されている情報については、ただ情報を羅列するだけではユーザー体験が損なわれると感じたため、日付ごとに絞り込みを行えるように工夫した。
+
+## まだ実装できていない部分・導入して微妙だと感じた部分
+- 非同期通信を行なっている間は、ローディングのアニメーションを入れて操作できないようにしたい。
+- 削除ボタンを押下後、確認モーダル表示するようにしたい。
+- 1日の合計摂取カロリーを表示できるようにしたい。
+- 1日の消費カロリーを表示できるようにしたい。
+- 機能数が少ないので、状態管理Vuexの恩恵があまり感じられなかった。
+
+## 主要ライブラリのバージョン情報
+- Nuxt 2.15.7
+- vuex-module-decorators 2.0.0
+- Element UI 2.15.2
+- Firebase 9.8.2
+
+## コマンド関連
 
 ```bash
-# install dependencies
+# セットアップ
 $ yarn install
 
-# serve with hot reload at localhost:3000
+# サーバーの立ち上げ
 $ yarn dev
 
-# build for production and launch server
+# ビルド
 $ yarn build
-$ yarn start
-
-# generate static project
-$ yarn generate
 ```
 
-For detailed explanation on how things work, check out the [documentation](https://nuxtjs.org).
+## 現時点でのアプリの挙動
+### 日付の絞り込み
+https://user-images.githubusercontent.com/64350081/181134518-be40e6c9-d3f4-4e64-bc06-25c365f53acd.mov
 
-## Special Directories
+### 食べ物の登録
+https://user-images.githubusercontent.com/64350081/181134592-66f722d6-aba4-4c7b-b3f9-dcb222ca1b5d.mov
 
-You can create the following extra directories, some of which have special behaviors. Only `pages` is required; you can delete them if you don't want to use their functionality.
+### 食べ物の編集
+https://user-images.githubusercontent.com/64350081/181134634-4fd61f57-54f4-4d7b-8ddf-43413054d14b.mov
 
-### `assets`
-
-The assets directory contains your uncompiled assets such as Stylus or Sass files, images, or fonts.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/assets).
-
-### `components`
-
-The components directory contains your Vue.js components. Components make up the different parts of your page and can be reused and imported into your pages, layouts and even other components.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/components).
-
-### `layouts`
-
-Layouts are a great help when you want to change the look and feel of your Nuxt app, whether you want to include a sidebar or have distinct layouts for mobile and desktop.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/layouts).
-
-
-### `pages`
-
-This directory contains your application views and routes. Nuxt will read all the `*.vue` files inside this directory and setup Vue Router automatically.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/get-started/routing).
-
-### `plugins`
-
-The plugins directory contains JavaScript plugins that you want to run before instantiating the root Vue.js Application. This is the place to add Vue plugins and to inject functions or constants. Every time you need to use `Vue.use()`, you should create a file in `plugins/` and add its path to plugins in `nuxt.config.js`.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/plugins).
-
-### `static`
-
-This directory contains your static files. Each file inside this directory is mapped to `/`.
-
-Example: `/static/robots.txt` is mapped as `/robots.txt`.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/static).
-
-### `store`
-
-This directory contains your Vuex store files. Creating a file in this directory automatically activates Vuex.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/store).
+### 食べ物の削除
+https://user-images.githubusercontent.com/64350081/181134667-f708a51d-ba7f-45f2-b57c-6062821ee42e.mov
